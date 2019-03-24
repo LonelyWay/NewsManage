@@ -13,6 +13,7 @@ public class Dbutil {
 
 	//获取数据库连接
 	public static Connection getConn() {
+		System.out.println();
 		try {
 			Class.forName(ConfigMapper.get("driver"));
 			String url = ConfigMapper.get("url");
@@ -43,9 +44,5 @@ public class Dbutil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	public static void main(String[] args) {
-		Connection conn = getConn();
-		System.out.println(conn==null?"yes":"no");
 	}
 }
