@@ -44,4 +44,8 @@ public class Dbutil {
 			e.printStackTrace();
 		}
 	}
+	public static void main(String[] args) {
+		Connection conn = getConn();
+		System.out.println(conn==null?"yes":"no");
+	}
 }

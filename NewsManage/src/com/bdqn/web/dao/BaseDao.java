@@ -28,7 +28,12 @@ public class BaseDao {
 		}
 		return -1;	
 	}
-	
+	/**
+	 * 根据条件查询数据
+	 * @param sql	
+	 * @param objects
+	 * @return	ResultSet
+	 */
 	public ResultSet executeQuery(String sql,Object...objects) {
 		try {
 			ppst = Dbutil.getConn().prepareStatement(sql);
