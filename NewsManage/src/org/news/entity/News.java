@@ -17,12 +17,21 @@ public class News implements Serializable {
 	private List<Comment> comments;	
 	private String ntitle;
 	private String nauthor;
-	private Date ncreatedate;
+	private String ncreatedate;
 	private String npicpath;
 	private String ncontent;
 	private Date nmodifydate;
 	private String nsummary;
-	
+	private String ntopic;
+
+	public String getNtopic() {
+		return ntopic;
+	}
+
+	public void setNtopic(String ntopic) {
+		this.ntopic = ntopic;
+	}
+
 	public String getNtname() {
 		return ntname;
 	}
@@ -63,11 +72,11 @@ public class News implements Serializable {
 		this.nauthor = nauthor;
 	}
 
-	public Date getNcreatedate() {
+	public String getNcreatedate() {
 		return ncreatedate;
 	}
 
-	public void setNcreatedate(Date ncreatedate) {
+	public void setNcreatedate(String ncreatedate) {
 		this.ncreatedate = ncreatedate;
 	}
 
