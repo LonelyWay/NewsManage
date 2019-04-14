@@ -34,15 +34,20 @@ public class NewsService {
         return count;
     }
 
-    public int update(String title,String author,String content,String modigydate,String summary,int tid){
+    public int update(int ntid,String title,String author,String content,String summary,int tid){
         int count = 0;
-        count = dao.executeUpdate(title,author,content,modigydate,summary,tid);
+        count = dao.update(ntid,title,author,content,summary,tid);
         return count;
     }
-
+    
     public int delete(int nid){
         int count = 0;
         count = dao.delete(nid);
-        return 0;
+        return count;
+    }
+    
+    public News selectByid(int nid){
+        News news = dao.selectNews(nid);
+        return news;
     }
 }

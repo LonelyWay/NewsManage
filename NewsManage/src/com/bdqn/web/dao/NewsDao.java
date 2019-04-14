@@ -62,18 +62,41 @@ public class NewsDao extends BaseDao{
         return count;
     }
 
-    public int update(String title,String author,String content,String mdate,String summary,int nid){
-        String sql = "update news set ntitle = ?,nauthor = ?,ncontent = ?,nmodifydate = ?,nsummary = ? where nid = ?";
+    public int update(int ntid,String title,String author,String content,String summary,int nid){
+        String sql = "update news set ntid = ?,ntitle = ?,nauthor = ?,ncontent = ?,nmodifydate = now(),nsummary = ? where nid = ?";
         int count = 0;
-        count = executeUpdate(sql,title,author,content,mdate,summary,nid);
+        count = executeUpdate(sql,ntid,title,author,content,summary,nid);
         return count;
     }
 
     public int delete(int tid){
-        String sql = "delete from news where id = ?";
+        String sql = "delete from news where nid = ?";
         int count = 0;
         count = executeUpdate(sql,tid);
         return count;
+    }
+    
+    public News selectNews(int nid){
+        String sql = "SELECT nid,ntid,ntitle,nauthor,ncontent,nsummary,(SELECT tname FROM topic T WHERE T.tid = N.ntid) TNAME FROM news N where nid = ?";
+        rs = executeQuery(sql,nid);
+        try {
+            if (rs.next()){
+                News news = new News();
+                news.setNid(rs.getInt(1));
+                news.setNtid(rs.getInt(2));
+                news.setNtitle(rs.getString(3));
+                news.setNauthor(rs.getString(4));
+                news.setNcontent(rs.getString(5));
+//                String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rs.getDate(6));
+//                news.setNmodifydate(date);
+                news.setNsummary(rs.getString(6));
+                news.setNtopic(rs.getString(7));
+                return news;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

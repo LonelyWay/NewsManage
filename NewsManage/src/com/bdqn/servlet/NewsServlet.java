@@ -30,7 +30,6 @@ public class NewsServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	System.out.println("进入servlet方法！");
     	request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         NewsService service = new NewsService();
@@ -51,12 +50,58 @@ public class NewsServlet extends HttpServlet {
             }
         }
 
+        Page<News> p;
         if (opr.equals("load")){
             String page = request.getParameter("page");
             String limit = request.getParameter("limit");
-
-            Page<News> p = service.list(Integer.parseInt(page),Integer.parseInt(limit));
+            p = service.list(Integer.parseInt(page),10);
             out.write(JSONObject.toJSONString(p));
+
+//            if (page != null && !page.equals("")){
+////                p = service.list(Integer.parseInt(page),Integer.parseInt(limit));
+////                out.write(JSONObject.toJSONString(p));
+//            }else{
+//                p = service.list(1,10);
+//                List<News> list = new ArrayList<News>();
+//                list = p.getData();
+//                out.write(JSONObject.toJSONString(list));
+//            }
+
+
+        }
+
+        if (opr.equals("del")){
+            String nid = request.getParameter("nid");
+            int count = service.delete(Integer.parseInt(nid));
+            if (count > 0){
+                System.out.println(">0");
+                out.write("success");
+            }else {
+                out.write("defeat");
+            }
+        }
+
+        if (opr.equals("toupdate")){
+            String nid = request.getParameter("nid");
+            News news = service.selectByid(Integer.parseInt(nid));
+//            out.write(JSONObject.toJSONString(news));
+            request.setAttribute("news",news);
+            request.getRequestDispatcher("static/newsupdate.jsp").forward(request,response);
+        }
+
+        if (opr.equals("update")){
+            String title = request.getParameter("title");
+            String nid = request.getParameter("nid");
+            String tid = request.getParameter("tid");
+            String content = request.getParameter("content");
+            String author = request.getParameter("author");
+            String summary = request.getParameter("summary");
+            int count = service.update(Integer.parseInt(tid),title,author,content,summary,Integer.parseInt(nid));
+            if (count > 0){
+                out.write("ok");
+            }else {
+                out.write("error");
+            }
         }
     }
 }
